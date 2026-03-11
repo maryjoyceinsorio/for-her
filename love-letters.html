@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Letters | Archive</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-red: #ff7675;
+            --bg-color: #fffafa;
+            --card-bg: #ffffff;
+            --text-dark: #2d3436;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f1e4e4;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo { font-weight: 700; font-size: 1.2rem; }
+        .logo span { color: var(--primary-red); }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Main Layout */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            color: var(--primary-red);
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Grid */
+        .letter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        
+
+        /* Letter Cards */
+        .letter-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid #fce4e4;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            transition: var(--transition);
+        }
+
+        .letter-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(255, 118, 117, 0.15);
+            border-color: var(--primary-red);
+        }
+
+        .envelope-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .open-btn {
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: var(--transition);
+        }
+
+        .open-btn:hover {
+            background: #e66767;
+            letter-spacing: 1px;
+        }
+
+        /* Overlay / Modal */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(45, 52, 54, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .overlay-content {
+            background: #fffafa;
+            width: 100%;
+            max-width: 500px;
+            padding: 50px 40px;
+            border-radius: 25px;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .overlay.active .overlay-content { transform: scale(1); }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 35px;
+            cursor: pointer;
+            color: #b2bec3;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover { color: var(--primary-red); }
+
+        .letter-paper {
+            border-left: 3px solid var(--primary-red);
+            padding-left: 25px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+        }
+
+        .handwritten {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #2d3436;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">OUR<span>MOMENTS</span></div>
+        <a href="index.html" class="nav-link">← Back to Home</a>
+    </nav>
+
+    <main class="container">
+        <header class="hero-section">
+            <h1>Special Letters</h1>
+            <p>A collection of thoughts just for you.</p>
+        </header>
+
+        <div class="letter-grid" id="letterGrid">
+            </div>
+    </main>
+
+    <div id="letterOverlay" class="overlay">
+        <div class="overlay-content">
+            <span class="close-btn" onclick="closeLetter()">&times;</span>
+            <div class="letter-paper">
+                <p id="letterMessage" class="handwritten"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const messages = [
+            "The first time I saw you, I knew you were special.",
+            "Thank you for always making me laugh even on bad days.",
+            "You are the most beautiful person I know, inside and out.",
+            "I love how we can talk for hours about absolutely nothing.",
+            "Remember our first date? I was so nervous!",
+            "You make my world a much brighter place.",
+            "Every song I hear reminds me of you lately.",
+            "I'm so proud of everything you are achieving.",
+            "Thank you for being my peace in this crazy world.",
+            "I promise to always be by your side, no matter what.",
+            "Your smile is my favorite thing to wake up to.",
+            "I love the way you look when you're focused on something.",
+            "You are my best friend and my soulmate all in one.",
+            "Can't wait for all the adventures we haven't had yet.",
+            "I love you more than words can ever express."
+        ];
+
+        const grid = document.getElementById('letterGrid');
+
+        messages.forEach((msg, index) => {
+            const card = document.createElement('div');
+            card.className = 'letter-card';
+            card.innerHTML = `
+                <span class="envelope-icon">✉️</span>
+                <h3>Letter #${index + 1}</h3>
+                <button class="open-btn" onclick="openLetter('${msg.replace(/'/g, "\\'")}')">Open Letter</button>
+            `;
+            grid.appendChild(card);
+        });
+
+        function openLetter(msg) {
+            document.getElementById('letterMessage').innerText = msg;
+            document.getElementById('letterOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLetter() {
+            document.getElementById('letterOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal if user clicks outside the paper
+        window.onclick = function(event) {
+            const overlay = document.getElementById('letterOverlay');
+            if (event.target == overlay) {
+                closeLetter();
+            }
+        }
+    </script>
+</body>
+</html>

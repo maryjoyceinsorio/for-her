@@ -1,0 +1,70 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff5f5; /* Light Red/Pinkish background */
+    color: #333;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #ffcccc; /* Soft Red for the bar */
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #b30000; /* Deep red for text */
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #ff4d4d;
+}
+
+/* Header */
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+/* Two-Column Grid */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Creates 2 equal columns */
+    gap: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.photo-box {
+    text-align: center;
+}
+
+.photo-box img {
+    width: 100%;
+    border-radius: 10px;
+    display: block;
+    margin-bottom: 10px;
+}
